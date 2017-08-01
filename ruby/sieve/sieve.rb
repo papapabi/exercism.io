@@ -1,17 +1,25 @@
 class Sieve
+  attr_accessor :sieve
+  attr_reader :primes
+
   def initialize(max_bound)
-    @lookup_table = {}
-    (2..max_bound).each { |i| @lookup_table[i] = false }
+    @sieve = {}
+    @primes = []
+    (2..max_bound).each { |i| @sieve[i] = false }
   end
 
   def primes
-    @lookup_table.keys.each do |key|
-      next if @lookup_table[key] 
-      @lookup_table.each do |k, v| 
+    self.sieve.keys.each do |key|
+      next if self.sieve[key] 
+      self.sieve.each do |k, v| 
         next if k <= key 
-        @lookup_table[k] = true if k % key == 0 
+        self.sieve[k] = true if k % key == 0 
       end
     end
-    @primes = @primes || @lookup_table.select { |k, v| v == false }.keys.to_a
+    @primes = self.sieve.select { |k, v| v == false }.keys.to_a
   end
+end
+
+module BookKeeping
+  VERSION = 1
 end

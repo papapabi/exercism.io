@@ -13,6 +13,15 @@ class RunLengthEncoding
   end
 
   def self.decode(s)
+    # String#scan returns an array of all matches given the regex as its
+    # argument, which is then unfolded by the 2nd block variable to reduce.
+    s.scan(/(\d+)*(.)/).reduce("") do |decoding, (count, char)|
+      if count.nil?
+        decoding << char
+      else
+        decoding << char*Integer(count)
+      end
+    end
   end
 end
 

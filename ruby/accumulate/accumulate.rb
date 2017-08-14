@@ -1,8 +1,10 @@
 module Enumerable
-  def accumulate(&block)
+  def accumulate()
     accumulator = []
-    self.each do |e|
-      accumulator << block.call(e)
+    if block_given?
+      each { |e| accumulator << yield(e) }
+    else
+      accumulator << to_enum(:accumulate)
     end
     accumulator
   end

@@ -1,3 +1,5 @@
+require 'set'
+
 class SumOfMultiples
   attr_reader :base_multiples
 
@@ -5,9 +7,8 @@ class SumOfMultiples
     @base_multiples = args.sort
   end
 
-  # Returns the sum of the multiples up to n.
   def to(n)
-    total_multiples = []
+    total_multiples = Set.new
     base_multiples.each do |multiple|
       multiplier = 1
       while (multiple * multiplier) < n
@@ -15,7 +16,7 @@ class SumOfMultiples
         multiplier += 1
       end
     end
-    total_multiples.uniq.reduce(0, :+)
+    total_multiples.reduce(0, :+)
   end
 end
 

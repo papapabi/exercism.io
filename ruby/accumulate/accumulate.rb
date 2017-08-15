@@ -1,12 +1,10 @@
 module Enumerable
   def accumulate()
-    accumulator = []
     if block_given?
-      each { |e| accumulator << yield(e) }
+      [].tap { |accumulator| each { |e| accumulator << yield(e) } }
     else
-      accumulator << to_enum(:accumulate)
+      to_enum(:accumulate)
     end
-    accumulator
   end
 end
 

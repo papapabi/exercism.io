@@ -44,6 +44,24 @@ class ArrayTest < Minitest::Test
     assert_equal copy, original
   end
 
+  def test_same_output_with_map
+    ar = [1, 2, 3]
+    accumulate_enum = ar.accumulate { |e| e**e }
+    map_enum = ar.map { |e| e**e }
+    assert_equal accumulate_enum, map_enum
+  end
+
+  def test_enum_simple
+    ar = [1, 2, 3]
+    accumulate_enum = ar.accumulate
+    assert_equal accumulate_enum.each { |e| e**2 }, ar.accumulate { |e| e**2 }
+  end
+
+  def test_enum_chaining
+    ar = [5, 1, 2, 4, 3]
+    accumulate_enum = ar.accumulate
+    assert_equal accumulate_enum.sort.join, "12345"
+  end
   # Problems in exercism evolve over time, as we find better ways to ask
   # questions.
   # The version number refers to the version of the problem you solved,

@@ -2,11 +2,7 @@ class PhoneNumber
   def self.clean(n)
     digits = get_digits(n) 
     if valid?(digits)
-      if digits.length == 11
-        remove_area_code(digits)
-      else
-        digits
-      end
+      digits.length == 11 ? remove_area_code(digits) : digits
     else
       nil
     end

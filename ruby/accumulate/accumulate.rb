@@ -3,7 +3,7 @@ module Enumerable
     if block_given?
       [].tap { |accumulator| each { |e| accumulator << yield(e) } }
     else
-      to_enum(:accumulate)
+      enum_for(:accumulate) { size } unless block_given?
     end
   end
 end

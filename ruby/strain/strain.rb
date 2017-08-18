@@ -1,37 +1,13 @@
 module Enumerable
   def keep(&block)
-    result = []
     if block_given?
-      each do |e|
-        if yield(e)
-          result << e
-        end
-      end
-    else 
-      each do |e| 
-        if block.call(e)
-          result << e
-        end
-      end
+      [].tap { |result| each { |e| yield(e) ? result << e : nil } }
     end
-    result
   end
 
   def discard(&block)
-    result = []
     if block_given?
-      each do |e|
-        unless yield(e)
-          result << e
-        end
-      end
-    else
-      each do |e|
-        unless block.call(e)
-          result << e
-        end
-      end
+      [].tap { |result| each { |e| yield(e) ? nil : result << e } }
     end
-    result
   end
 end

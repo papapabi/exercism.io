@@ -1,12 +1,8 @@
 class ETL
   def self.transform(old)
-    new = {}
-    old.each do |key, values|
-      values.each do |value|
-        new[value.downcase] = key
-      end
+    old.each_with_object({}) do |(key, values), acc|
+      values.each { |value| acc[value.downcase] = key }
     end
-    new
   end
 end
 

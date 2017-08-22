@@ -1,37 +1,31 @@
 class BeerSong
-  def initialize
-  end
-
   def verse(n)
-    first(n) + "\n" + second(n) + "\n"
+    case n
+    when 0
+      <<~TEXT # Squiggly heredoc
+      No more bottles of beer on the wall, no more bottles of beer.
+      Go to the store and buy some more, 99 bottles of beer on the wall.
+      TEXT
+    when 1
+      <<~TEXT
+      1 bottle of beer on the wall, 1 bottle of beer.
+      Take it down and pass it around, no more bottles of beer on the wall.
+      TEXT
+    when 2
+      <<~TEXT
+      2 bottles of beer on the wall, 2 bottles of beer.
+      Take one down and pass it around, 1 bottle of beer on the wall.
+      TEXT
+    else
+      <<~TEXT
+      #{n} bottles of beer on the wall, #{n} bottles of beer.
+      Take one down and pass it around, #{n-1} bottles of beer on the wall.
+      TEXT
+    end
   end
 
   def verses(s, e)
     s.downto(e).map { |n| verse(n) }.join("\n")
-  end
-
-
-  private
-  ZERO_FIRST = "No more bottles of beer on the wall, no more bottles of beer."
-  ZERO_SECOND= "Go to the store and buy some more, 99 bottles of beer on the wall."
-  private_constant :ZERO_FIRST, :ZERO_SECOND
-
-  def first(n)
-    return ZERO_FIRST if n == 0
-    b = bottle_plurality(n) 
-    "#{n} #{b} of beer on the wall, #{n} #{b} of beer."
-  end
-
-  def second(n)
-    return ZERO_SECOND if n == 0
-    b = bottle_plurality(n - 1)
-    p = (n == 1) ? "it" : "one"
-    n = (n == 1) ? "no more" : n - 1
-    "Take #{p} down and pass it around, #{n} #{b} of beer on the wall."
-  end
-
-  def bottle_plurality(n)
-    (n == 1) ? "bottle" : "bottles"
   end
 end
 

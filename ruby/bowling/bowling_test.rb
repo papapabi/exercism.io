@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require 'byebug'
 require_relative 'bowling'
 
 # Common test data version: 1.0.0 3cf5eb9
@@ -12,19 +13,16 @@ class BowlingTest < Minitest::Test
   end
 
   def test_should_be_able_to_score_a_game_with_all_zeros
-    # skip
     record([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     assert_equal 0, @game.score
   end
 
   def test_should_be_able_to_score_a_game_with_no_strikes_or_spares
-    skip
     record([3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6])
     assert_equal 90, @game.score
   end
 
   def test_a_spare_followed_by_zeros_is_worth_ten_points
-    skip
     record([6, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     assert_equal 10, @game.score
   end

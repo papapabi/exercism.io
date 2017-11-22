@@ -1,48 +1,52 @@
 require_relative 'bowling_error'
 
 class Frame
-  attr_reader :number, :score
-  attr_reader :first_throw, :second_throw, :third_throw
+  attr_reader :first, :second, :bonus
+  attr_reader :roll_tracker
+  attr_reader :number
 
   def initialize(number)
     @number = number
-    @score = 0 
+    @first = @second = @bonus = @roll_tracker = 0
   end
 
-  def add_to_frame(pins_knocked_down)
-    if number == 10 # Special case for the tenth bowling frame
-      if first_throw.nil?
-        first_throw = pins_knocked_down
-      elsif second_throw.nil?
-        second_throw = pins_knocked_down
-      else 
-        third_throw = pins_knocked_down
-      end
-    else 
-      unless first_throw
-        first_throw = pins_knocked_down 
-      else
-        second_throw = pins_knocked_down
-        raise BowlingError if first_throw + second_throw > 10
-      end
+  def add(pins_knocked_down)
+    if roll_tracker == 0
+      @first = pins_knocked_down
+    elsif roll_tracker == 1
+      @second = pins_knocked_down
+    elsif roll_tracker == 2
+      @bonus = pins_knocked_down
     end
+    @roll_tracker += 1
   end
+
 
   def strike?
-    first_throw == 10
+    first == 10
   end
 
   def spare?
-    first_throw + second_throw == 10
+    first + second == 10
   end
 
   def open?
-    first_throw + second_throw < 10
+    first + second < 10
+  end
+
+  def total
+    first + second + bonus
   end
 
   def to_s
-    [number, first_throw, second_throw, third_throw, score]
+    [number, first, second, bonus, score]
   end
 
-  private_constant :Frame
+  def finished?
+    if number == 10
+      !spare? || roll_tracker >= 2
+    else 
+      strike? || roll_tracker >= 1
+    end
+  end
 end 

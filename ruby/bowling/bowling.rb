@@ -4,6 +4,7 @@ require_relative 'frame'
 # A class that models how a bowling game is scored.
 class Game
   attr_reader :frames
+
   def initialize
     @frames = [] << Frame.new(1)
   end
@@ -19,7 +20,22 @@ class Game
   end
 
   def score
+    listeners = []
     frames.reduce(0) do |acc, f|
+      listeners.each do |l|
+        l.wait =  l.wait - f.rolls
+        if l.wait >= 0
+          acc += f.total
+        else
+          acc += f.first
+        end
+      end
+
+      listeners.delete_if { |l| l.wait <= 0 }
+
+      if f.strike? || f.spare?
+        listeners << f
+      end
       acc += f.total
     end
   end
@@ -29,6 +45,10 @@ class Game
   end
 
   def advance
-    @frames << Frame.new(current_frame.number)
+    @frames << Frame.new(current_frame.number + 1)
   end
+end
+
+module BookKeeping
+  VERSION = 3
 end

@@ -25,6 +25,15 @@ class Frame
     @roll_tracker += 1
   end
 
+  def tally(n)
+    if n == 1
+      first
+    elsif n == 2
+      first + second
+    else
+      return BowlingError
+    end
+  end
 
   def strike?
     first == 10

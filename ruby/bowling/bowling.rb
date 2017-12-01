@@ -23,12 +23,13 @@ class Game
     listeners = []
     frames.reduce(0) do |acc, f|
       listeners.each do |l|
-        l.wait =  l.wait - f.rolls
-        if l.wait >= 0
+        # the original wait time is useful
+        if l.wait - f.rolls >= 0
           acc += f.total
         else
-          acc += f.first
+          acc += f.tally(l.wait)
         end
+        l.wait = l.wait - f.rolls
       end
 
       listeners.delete_if { |l| l.wait <= 0 }
@@ -36,6 +37,7 @@ class Game
       if f.strike? || f.spare?
         listeners << f
       end
+
       acc += f.total
     end
   end

@@ -83,7 +83,6 @@ class BowlingTest < Minitest::Test
   end
 
   def test_rolls_can_not_score_negative_points
-    skip
     record([])
     assert_raises Game::BowlingError do
       @game.roll(-1)
@@ -91,7 +90,6 @@ class BowlingTest < Minitest::Test
   end
 
   def test_a_roll_can_not_score_more_than_10_points
-    skip
     record([])
     assert_raises Game::BowlingError do
       @game.roll(11)

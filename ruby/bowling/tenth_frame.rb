@@ -27,7 +27,7 @@ class TenthFrame < Frame
     if rolls == 1
       strike?
     elsif rolls == 2
-      spare?
+      spare? || strike?
     else 
       # no bonus, end game
     end

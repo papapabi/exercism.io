@@ -36,10 +36,6 @@ class Frame
     number == 10
   end
 
-  def valid?
-    first + second <= 10 && first + second >= 0
-  end
-
   def strike?
     first == 10
   end

@@ -19,10 +19,13 @@ class Game
 
     if current_frame.tenth?
       current_frame.add(pins_knocked_down)
-      return unless current_frame.bonus?
+      if current_frame.bonus?
+        @pins_at_play = 10
+      else
+        return # the game has ended
+      end
     else
       current_frame.add(pins_knocked_down)
-      raise BowlingError unless current_frame.valid?
       advance if current_frame.finished?
     end
   end
@@ -31,7 +34,6 @@ class Game
     listeners = []
     frames.reduce(0) do |acc, f|
       listeners.each do |l|
-        # the original wait time is useful
         if l.wait - f.rolls >= 0
           acc += f.total
         else

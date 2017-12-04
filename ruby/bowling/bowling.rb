@@ -1,20 +1,28 @@
 require_relative 'bowling_error'
 require_relative 'frame'
+require_relative 'tenth_frame'
 
 # A class that models how a bowling game is scored.
 class Game
   attr_reader :frames
+  attr_reader :pins_at_play
 
   def initialize
     @frames = [] << Frame.new(1)
+    @pins_at_play = 10
   end
 
   def roll(pins_knocked_down)
     raise BowlingError unless (0..10).include? pins_knocked_down
-    if current_frame.number == 10
+    raise BowlingError if @pins_at_play - pins_knocked_down < 0
+    @pins_at_play -= pins_knocked_down
+
+    if current_frame.tenth?
       current_frame.add(pins_knocked_down)
+      return unless current_frame.bonus?
     else
       current_frame.add(pins_knocked_down)
+      raise BowlingError unless current_frame.valid?
       advance if current_frame.finished?
     end
   end
@@ -46,8 +54,14 @@ class Game
     @frames.last
   end
 
+  # Advance to the next frame
   def advance
-    @frames << Frame.new(current_frame.number + 1)
+    if current_frame.number + 1 == 10
+      @frames << TenthFrame.new(current_frame.number + 1)
+    else
+      @frames << Frame.new(current_frame.number + 1)
+    end
+    @pins_at_play = 10
   end
 end
 

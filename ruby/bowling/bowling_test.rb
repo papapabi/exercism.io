@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-require 'byebug'
 require_relative 'bowling'
 
 # Common test data version: 1.0.0 3cf5eb9

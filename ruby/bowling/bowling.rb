@@ -36,7 +36,9 @@ class Game
   end
 
   def score
-    raise BowlingError.new("Cannot score incomplete games") unless frames.size >= 10 
+    unless frames.size >= 10 && frames[9].finished?
+      raise BowlingError.new("cannot score incomplete games") 
+    end
     listeners = []
     frames.reduce(0) do |acc, f|
       listeners.each do |l|

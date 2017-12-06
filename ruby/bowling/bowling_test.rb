@@ -118,13 +118,11 @@ class BowlingTest < Minitest::Test
   end
 
   def test_two_bonus_rolls_after_a_strike_in_the_last_frame_can_score_more_than_10_points_if_one_is_a_strike
-    skip
     record([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 6])
     assert_equal 26, @game.score
   end
 
   def test_the_second_bonus_rolls_after_a_strike_in_the_last_frame_can_not_be_a_strike_if_the_first_one_is_not_a_strike
-    skip
     record([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 6])
     assert_raises Game::BowlingError do
       @game.roll(10)
@@ -132,7 +130,6 @@ class BowlingTest < Minitest::Test
   end
 
   def test_second_bonus_roll_after_a_strike_in_the_last_frame_can_not_score_than_10_points
-    skip
     record([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10])
     assert_raises Game::BowlingError do
       @game.roll(11)
@@ -140,7 +137,6 @@ class BowlingTest < Minitest::Test
   end
 
   def test_an_unstarted_game_can_not_be_scored
-    skip
     record([])
     assert_raises Game::BowlingError do
       @game.score
@@ -148,7 +144,6 @@ class BowlingTest < Minitest::Test
   end
 
   def test_an_incomplete_game_can_not_be_scored
-    skip
     record([0, 0])
     assert_raises Game::BowlingError do
       @game.score
@@ -156,7 +151,6 @@ class BowlingTest < Minitest::Test
   end
 
   def test_cannot_roll_if_game_already_has_ten_frames
-    skip
     record([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
     assert_raises Game::BowlingError do
       @game.roll(0)
@@ -164,7 +158,6 @@ class BowlingTest < Minitest::Test
   end
 
   def test_bonus_rolls_for_a_strike_in_the_last_frame_must_be_rolled_before_score_can_be_calculated
-    skip
     record([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10])
     assert_raises Game::BowlingError do
       @game.score
@@ -172,7 +165,6 @@ class BowlingTest < Minitest::Test
   end
 
   def test_both_bonus_rolls_for_a_strike_in_the_last_frame_must_be_rolled_before_score_can_be_calculated
-    skip
     record([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10])
     assert_raises Game::BowlingError do
       @game.score
@@ -180,7 +172,6 @@ class BowlingTest < Minitest::Test
   end
 
   def test_bonus_roll_for_a_spare_in_the_last_frame_must_be_rolled_before_score_can_be_calculated
-    skip
     record([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 3])
     assert_raises Game::BowlingError do
       @game.score

@@ -13,24 +13,30 @@ class Game
   end
 
   def roll(pins_knocked_down)
-    raise BowlingError unless (0..10).include? pins_knocked_down
-    raise BowlingError if @pins_at_play - pins_knocked_down < 0
-    @pins_at_play -= pins_knocked_down
+    # Guard statements
+    raise BowlingError.new('sobra rolls') if current_frame.number > 10
+    raise BowlingError.new('roll must be in [0, 10]') unless (0..10).include? pins_knocked_down
+    raise BowlingError.new('cannot knock down more pins than ones at play') if @pins_at_play - pins_knocked_down < 0
 
-    if current_frame.tenth?
-      current_frame.add(pins_knocked_down)
-      if current_frame.bonus?
+    @pins_at_play -= pins_knocked_down
+    current_frame.add(pins_knocked_down)
+
+    if current_frame.tenth? 
+      if current_frame.strike? && @flag.nil?
+        @pins_at_play = 10
+        @flag = true
+      elsif current_frame.second_strike? || current_frame.spare?
         @pins_at_play = 10
       else
-        return # the game has ended
+        # ewan pa
       end
-    else
-      current_frame.add(pins_knocked_down)
-      advance if current_frame.finished?
     end
+
+    advance if current_frame.finished?
   end
 
   def score
+    raise BowlingError.new("Cannot score incomplete games") unless frames.size >= 10 
     listeners = []
     frames.reduce(0) do |acc, f|
       listeners.each do |l|
@@ -56,7 +62,6 @@ class Game
     @frames.last
   end
 
-  # Advance to the next frame
   def advance
     if current_frame.number + 1 == 10
       @frames << TenthFrame.new(current_frame.number + 1)

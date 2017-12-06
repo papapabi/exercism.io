@@ -28,7 +28,7 @@ class Frame
     elsif n == 2
       first + second
     else
-      return BowlingError
+      raise BowlingError
     end
   end
 

@@ -2,8 +2,8 @@ require_relative 'frame'
 require_relative 'bowling_error'
 
 class TenthFrame < Frame
-  attr_reader :bonus
   attr_reader :number
+  attr_reader :bonus
 
   def initialize(number)
     super(number)
@@ -24,13 +24,27 @@ class TenthFrame < Frame
   end
 
   def bonus?
-    if rolls == 1
-      strike?
-    elsif rolls == 2
-      spare? || strike?
-    else 
-      # no bonus, end game
+    strike? || spare?
+  end
+
+  def finished?
+    if bonus?
+      rolls == 3
+    else
+      rolls == 2
     end
+  end
+
+  def flagged?
+    @flagged ||= true
+  end
+
+  def spare?
+    first + second == 10 && first != 10
+  end
+
+  def second_strike?
+    second == 10
   end
 
   def total

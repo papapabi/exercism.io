@@ -3,14 +3,13 @@ class Anagram
 
   def initialize(s)
     @s = s
-    @chars = s.downcase.split("").sort
+    @chars = s.downcase.chars.sort
   end
 
   def match(a)
     a.reject { |e| e.length != s.length }
-      .reject { |e| e.downcase == s.downcase }.select do |e|
-      e.downcase.split("").sort == @chars
-    end
+      .reject { |e| e.downcase == s.downcase }
+      .select { |e| e.downcase.chars.sort == @chars }
   end
 end
 

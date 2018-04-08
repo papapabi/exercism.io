@@ -7,8 +7,7 @@ class Anagram
   end
 
   def match(a)
-    a.reject { |e| e.length != s.length }
-      .reject { |e| e.downcase == s.downcase }
+    a.reject { |e| e.downcase == s.downcase }
       .select { |e| e.downcase.chars.sort == @chars }
   end
 end

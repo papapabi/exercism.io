@@ -3,7 +3,7 @@ class Bst
   attr_reader :root
 
   def initialize(n)
-    @root = Node.new(n)
+    @root = Node.new(n) 
   end
 
   def insert(n)
@@ -20,6 +20,22 @@ class Bst
 
   def right
     root.right
+  end
+
+  def each(&block)
+    return enum_for(:each) unless block_given?
+    iterate_starting_at_root(&block)
+  end
+
+  def iterate_starting_at_root(&block)
+    inorder_traversal(@root, &block)
+  end
+
+  def inorder_traversal(current_node, &block)
+    return if current_node.nil?
+    inorder_traversal(current_node.left, &block)
+    yield current_node.data if block_given?
+    inorder_traversal(current_node.right, &block)
   end
 
   class Node
@@ -43,4 +59,8 @@ class Bst
   end
 
   private_constant :Node
+end
+
+module BookKeeping
+  VERSION = 1
 end

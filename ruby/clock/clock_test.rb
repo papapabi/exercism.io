@@ -48,42 +48,34 @@ class ClockTest < Minitest::Test
   end
 
   def test_negative_hour
-    skip
     assert_equal "23:15", Clock.at(-1, 15).to_s
   end
 
   def test_negative_hour_rolls_over
-    skip
     assert_equal "23:00", Clock.at(-25, 0).to_s
   end
 
   def test_negative_hour_rolls_over_continuously
-    skip
     assert_equal "05:00", Clock.at(-91, 0).to_s
   end
 
   def test_negative_minutes
-    skip
     assert_equal "00:20", Clock.at(1, -40).to_s
   end
 
   def test_negative_minutes_roll_over
-    skip
     assert_equal "22:20", Clock.at(1, -160).to_s
   end
 
   def test_negative_minutes_roll_over_continuously
-    skip
     assert_equal "16:40", Clock.at(1, -4820).to_s
   end
 
   def test_negative_hour_and_minutes_both_roll_over
-    skip
     assert_equal "20:20", Clock.at(-25, -160).to_s
   end
 
   def test_negative_hour_and_minutes_both_roll_over_continuously
-    skip
     assert_equal "22:10", Clock.at(-121, -5810).to_s
   end
 

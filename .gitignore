@@ -2,3 +2,8 @@ exercism
 **/__pycache__/
 **/.pytest_cache/
 *.json
+
+# vim temp files
+*~
+*.swp
+*.swo

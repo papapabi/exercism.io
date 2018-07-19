@@ -32,14 +32,10 @@ class Rational(object):
         return Rational(numer, denom)
 
     def __sub__(self, other):
-        numer = self.numer * other.denom - other.numer * self.denom
-        denom = self.denom * other.denom
-        return Rational(numer, denom)
+        return self + Rational(-1, 1) * other
 
     def __mul__(self, other):
-        numer = self.numer * other.numer
-        denom = self.denom * other.denom
-        return Rational(numer, denom)
+        return Rational(self.numer * other.numer, self.denom * other.denom)
 
     def __truediv__(self, other):
         numer = self.numer * other.denom
@@ -47,14 +43,10 @@ class Rational(object):
         return Rational(numer, denom)
 
     def __abs__(self):
-        numer = abs(self.numer)
-        denom = abs(self.denom)
-        return Rational(numer, denom)
+        return Rational(abs(self.numer), abs(self.denom))
 
     def __pow__(self, power):
-        numer = self.numer ** power
-        denom = self.denom ** power
-        return Rational(numer, denom)
+        return Rational(self.numer ** power, self.denom ** power)
 
     def __rpow__(self, base):
         return (base ** self.numer) ** (1 / self.denom)

@@ -4,10 +4,10 @@ from math import gcd
 def _simplest_form(numer, denom):
     """Returns the simplest form of a numer and denom, in a 2-tuple"""
     _gcd = gcd(numer, denom)
-    if numer * denom > 0:
+    if numer * denom > 0: # The signs are the same.
         numer = abs(numer)
         denom = abs(denom)
-    else:
+    else: # The signs are different, force the negative to be in the numerator.
         numer = -abs(numer)
         denom = abs(denom)
     return (numer // _gcd, denom // _gcd)
@@ -47,12 +47,14 @@ class Rational(object):
         return Rational(numer, denom)
 
     def __abs__(self):
-        abs_numer = abs(self.numer)
-        abs_denom = abs(self.denom)
-        return Rational(abs_numer, abs_denom)
+        numer = abs(self.numer)
+        denom = abs(self.denom)
+        return Rational(numer, denom)
 
     def __pow__(self, power):
-        pass
+        numer = self.numer ** power
+        denom = self.denom ** power
+        return Rational(numer, denom)
 
     def __rpow__(self, base):
-        pass
+        return (base ** self.numer) ** (1 / self.denom)

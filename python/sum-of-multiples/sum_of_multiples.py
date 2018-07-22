@@ -1,9 +1,9 @@
 def sum_of_multiples(limit, numbers):
     if not numbers:
         return 0
-    multiples = []
+    multiples = set()
     for n in numbers:
         for i in range(n, limit, n):
-            multiples.append(i)
+            multiples.add(i)
 
-    return sum(set(multiples))
+    return sum(multiples)

@@ -1,12 +1,10 @@
 def prime_factors(n):
     prime_factors = []
-    if n == 1:
-        return prime_factors
-    i = 2
+    candidate = 2
     while n > 1:
-        if n % i == 0:
-            prime_factors.append(i)
-            n //= i
+        if n % candidate == 0:
+            prime_factors.append(candidate)
+            n //= candidate
         else:
-            i += 1
+            candidate += 1
     return prime_factors

@@ -1,10 +1,10 @@
 def on_square(n):
-    if not 1 <= n <= 64:
-        raise ValueError("can't have n <= 0")
-    return 2 ** (n - 1)
+    return __calculate(n)
 
 def total_after(n):
-    if not 1 <= n <= 64:
-        raise ValueError("can't have n <= 0")
-    squares = (on_square(i) for i in range(1, n + 1))
-    return sum(squares)
+    return __calculate(n) * 2 - 1
+
+def __calculate(n):
+    if n > 64 or n < 1:
+        raise ValueError("n must be in interval [0, 64]")
+    return 1 << (n - 1)

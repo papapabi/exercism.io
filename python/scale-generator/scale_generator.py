@@ -20,16 +20,18 @@ class Scale(object):
         else:
             tones = CHROMATIC_SHARPS
         cycled = cycle(tones)
-        start_at_tonic = dropwhile(lambda x: x != tonic, cycled)
+        start_at_tonic = dropwhile(lambda x: x != tonic.capitalize(), cycled)
         chromatic_tones = islice(start_at_tonic, 12)
         return list(chromatic_tones)
 
     def __init__(self, tonic, intervals=None):
-        if intervals is None:
-            self.pitches = self.__generate_chromatic(tonic)
-        else:
+        if intervals:
             available_pitches = self.__generate_chromatic(tonic)
-            self.pitches = [tonic]
+            self.pitches = [tonic.capitalize()]
+            pattern = [INTERVAL_TO_SEMITONE_VALUE[interval] for interval in
+                       intervals]
+            if sum(pattern) > 12:
+                raise ValueError('broken interval')
             for interval in intervals:
                 self.pitches.append(
                     available_pitches[
@@ -37,3 +39,5 @@ class Scale(object):
                         + INTERVAL_TO_SEMITONE_VALUE[interval])
                         % 12])
             self.pitches.pop()
+        else:
+            self.pitches = self.__generate_chromatic(tonic)

@@ -2,8 +2,8 @@ class Clock
   attr_reader :hours, :minutes
 
   def initialize(hours, minutes)
-    @minutes = roll_over_minutes(minutes)
-    @hours = roll_over_hours(hours)
+    @minutes = minutes % 60
+    @hours = (hours + minutes / 60) % 24
   end
 
   def self.at(hours, minutes)
@@ -14,17 +14,19 @@ class Clock
     format('%02d:%02d', hours, minutes)
   end
 
-  def +(clock)
+  def +(mins)
+    self.class.new(hours, minutes + mins)
   end
 
-  def roll_over_minutes(minutes)
-    @hours = (minutes/60).floor
-    minutes % 60
+  def -(mins)
+    self.class.new(@hours, @minutes - mins)
   end
 
-  def roll_over_hours(hours)
-    (@hours + hours) % 24
+  def ==(other_clock)
+    hours == other_clock.hours && minutes == other_clock.minutes
   end
+end
 
-  private :roll_over_minutes, :roll_over_hours
+module BookKeeping
+  VERSION = 2
 end
